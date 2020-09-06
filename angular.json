@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "podlist"
+    }
+  },
+  "defaultProject": "podlist",
+  "cli": {
+    "analytics": false
+  }
 }

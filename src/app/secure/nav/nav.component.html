@@ -1,0 +1,75 @@
+<div class="flex flex-col w-64">
+  <div class="flex flex-col h-0 flex-1 border-r border-gray-200 bg-white">
+    <div class="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
+      <div
+        class="flex text-xl font-bold items-center flex-shrink-0 px-4 uppercase"
+      >
+        PodList
+      </div>
+      <nav class="mt-5 flex-1 px-2 bg-white space-y-1">
+        <a
+          routerLink="/dashboard"
+          routerLinkActive="bg-gray-100 text-gray-900"
+          class="group flex items-center px-2 py-2 text-sm leading-5 font-medium text-gray-700 rounded-md hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:bg-gray-200 transition ease-in-out duration-150"
+        >
+          <svg
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            class="mr-3 h-6 w-6 text-gray-500 group-hover:text-gray-500 group-focus:text-gray-600 transition ease-in-out duration-150"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M5.05 3.636a1 1 0 010 1.414 7 7 0 000 9.9 1 1 0 11-1.414 1.414 9 9 0 010-12.728 1 1 0 011.414 0zm9.9 0a1 1 0 011.414 0 9 9 0 010 12.728 1 1 0 11-1.414-1.414 7 7 0 000-9.9 1 1 0 010-1.414zM7.879 6.464a1 1 0 010 1.414 3 3 0 000 4.243 1 1 0 11-1.415 1.414 5 5 0 010-7.07 1 1 0 011.415 0zm4.242 0a1 1 0 011.415 0 5 5 0 010 7.072 1 1 0 01-1.415-1.415 3 3 0 000-4.242 1 1 0 010-1.415zM10 9a1 1 0 011 1v.01a1 1 0 11-2 0V10a1 1 0 011-1z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+          Podcast
+        </a>
+        <a
+          routerLink="/favorite"
+          routerLinkActive="bg-gray-100 text-gray-900"
+          class="group flex items-center px-2 py-2 text-sm leading-5 font-medium text-gray-700 rounded-md hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:bg-gray-200 transition ease-in-out duration-150"
+        >
+          <svg
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            class="mr-3 h-6 w-6 text-gray-500 group-hover:text-gray-500 group-focus:text-gray-600 transition ease-in-out duration-150"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M9 3a1 1 0 012 0v5.5a.5.5 0 001 0V4a1 1 0 112 0v4.5a.5.5 0 001 0V6a1 1 0 112 0v5a7 7 0 11-14 0V9a1 1 0 012 0v2.5a.5.5 0 001 0V4a1 1 0 012 0v4.5a.5.5 0 001 0V3z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+
+          My Podcast
+        </a>
+      </nav>
+    </div>
+    <div class="flex-shrink-0 flex border-t border-gray-200 p-4">
+      <a href="#" class="flex-shrink-0 w-full group block">
+        <div class="flex items-center">
+          <div
+            class="rounded-full bg-gray-500 h-8 w-8 text-center flex items-center justify-center"
+          >
+            {{ user?.first_name.slice(0, 1) }} {{ user?.last_name.slice(0, 1) }}
+          </div>
+          <div class="ml-3">
+            <p
+              class="text-sm leading-5 font-medium text-gray-700 group-hover:text-gray-900"
+            >
+              {{ user?.first_name }} {{ user?.last_name }}
+            </p>
+            <a
+              (click)="handleLogout()"
+              href="javascript:void(0)"
+              class="text-xs leading-4 font-medium text-indigo-500 group-hover:text-gray-700 transition ease-in-out duration-150"
+            >
+              Sign Out
+            </a>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
