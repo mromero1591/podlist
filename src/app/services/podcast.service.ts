@@ -19,6 +19,7 @@ interface SearchResults {
 })
 export class PodcastService {
   podCasts = null;
+  favPodcast = null;
 
   constructor(private http: HttpClient) {}
 
@@ -34,5 +35,22 @@ export class PodcastService {
   }
   delete(id) {
     return this.http.delete(`${environment.api}/podcast/${id}`);
+  }
+
+  getUserFavorite(id) {
+    return this.http.get(`${environment.api}/podcast/favorite/${id}`);
+  }
+
+  setUserFavorite(user_id, podcast_id) {
+    return this.http.post(`${environment.api}/podcast/favorite`, {
+      user_id: user_id,
+      podcast_id: podcast_id,
+    });
+  }
+  removeUserFavorite(user_id, podcast_id) {
+    return this.http.post(`${environment.api}/podcast/favorite/remove`, {
+      user_id: user_id,
+      podcast_id: podcast_id,
+    });
   }
 }

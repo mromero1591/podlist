@@ -21,13 +21,20 @@ export class PodcastsComponent implements OnInit {
   creatingNewPodcast = false;
   deletingPodcast = false;
   showEdit = false;
+  loading = true;
+  error = false;
+  errorMessage = 'Podcast Error:';
 
   constructor(
     private podcastService: PodcastService,
+    private authService: AuthService,
     private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
+    this.authService.user().subscribe((res) => {
+      this.user = res;
+    });
     this.form = this.formBuilder.group({
       title: '',
       description: '',
@@ -40,6 +47,7 @@ export class PodcastsComponent implements OnInit {
     });
     this.podcastService.all().subscribe((res: any) => {
       this.podcasts = res;
+      this.loading = false;
     });
   }
 
@@ -80,10 +88,19 @@ export class PodcastsComponent implements OnInit {
     this.setShowEdit(false);
   }
 
+  setError() {
+    this.error = true;
+
+    setTimeout(() => {
+      this.error = false;
+      this.errorMessage = '';
+    }, 3000);
+  }
+
   handleCreatePodcast() {
     this.creatingNewPodcast = true;
     const newPodcastData = this.form.getRawValue();
-    console.log(newPodcastData);
+
     this.podcastService.create(newPodcastData).subscribe(
       (res) => {
         this.podcastService.all().subscribe((res: any) => {
@@ -93,7 +110,18 @@ export class PodcastsComponent implements OnInit {
         });
       },
       (err) => {
-        console.log(err);
+        if (err.error.errors) {
+          let errorMessages = err.error.errors;
+
+          this.errorMessage += errorMessages.title
+            ? errorMessages.title[0]
+            : '';
+          this.errorMessage += errorMessages.artwork
+            ? errorMessages.artwork[0]
+            : '';
+        }
+        this.setError();
+        this.creatingNewPodcast = false;
       }
     );
   }
@@ -101,7 +129,7 @@ export class PodcastsComponent implements OnInit {
   handleEditPodcast() {
     this.creatingNewPodcast = true;
     const updateData = this.editForm.getRawValue();
-    console.log(updateData);
+
     this.podcastService.update(this.selectedPodcast.id, updateData).subscribe(
       (res) => {
         this.podcastService.all().subscribe((res: any) => {
@@ -111,6 +139,17 @@ export class PodcastsComponent implements OnInit {
         });
       },
       (err) => {
+        if (err.error.errors) {
+          let errorMessages = err.error.errors;
+
+          this.errorMessage += errorMessages.title
+            ? errorMessages.title[0]
+            : '';
+          this.errorMessage += errorMessages.artwork
+            ? errorMessages.artwork[0]
+            : '';
+        }
+        this.setError();
         this.creatingNewPodcast = false;
       }
     );
@@ -131,5 +170,15 @@ export class PodcastsComponent implements OnInit {
         this.deletingPodcast = false;
       }
     );
+  }
+
+  setAsFavorite(podcast) {
+    let temp = [...this.podcasts];
+    let findIndex = temp.findIndex((item) => item.id === podcast.id);
+    if (findIndex) {
+      temp[findIndex].favorite = true;
+      this.podcasts = temp;
+    }
+    this.podcastService.setUserFavorite(this.user.id, podcast.id).subscribe();
   }
 }

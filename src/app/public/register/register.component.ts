@@ -11,6 +11,9 @@ import { Router } from '@angular/router';
 export class RegisterComponent implements OnInit {
   form: FormGroup;
   loggingIn = false;
+  error = false;
+  errorMessage = '';
+
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
@@ -25,6 +28,15 @@ export class RegisterComponent implements OnInit {
       password: '',
       confirm_password: '',
     });
+  }
+
+  setError() {
+    this.error = true;
+
+    setTimeout(() => {
+      this.error = false;
+      this.errorMessage = '';
+    }, 3000);
   }
 
   handleRegisterSubmit() {
@@ -45,6 +57,26 @@ export class RegisterComponent implements OnInit {
           this.router.navigate(['/dashboard']);
         },
         (err) => {
+          if (err.error.errors) {
+            let errorMessages = err.error.errors;
+
+            this.errorMessage += errorMessages.first_name
+              ? errorMessages.first_name[0]
+              : '';
+            this.errorMessage += errorMessages.last_name
+              ? errorMessages.last_name[0]
+              : '';
+            this.errorMessage += errorMessages.email
+              ? errorMessages.email[0]
+              : '';
+            this.errorMessage += errorMessages.password
+              ? errorMessages.password[0]
+              : '';
+            this.errorMessage += errorMessages.confirm_password
+              ? errorMessages.confirm_password[0]
+              : '';
+          }
+          this.setError();
           this.loggingIn = false;
         }
       );

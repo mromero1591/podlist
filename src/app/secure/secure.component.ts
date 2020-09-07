@@ -28,10 +28,5 @@ export class SecureComponent implements OnInit {
     } else {
       this.router.navigate(['/login']);
     }
-
-    // this.podcastService.all().subscribe((data) => {
-    //   this.podcasts = data.data;
-    //   console.log(data);
-    // });
   }
 }

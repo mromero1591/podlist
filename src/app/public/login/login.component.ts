@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   form: FormGroup;
   loggingIn = false;
+  error = false;
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
@@ -24,6 +25,14 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  setError() {
+    this.error = true;
+
+    setTimeout(() => {
+      this.error = false;
+    }, 3000);
+  }
+
   handleLogin() {
     this.loggingIn = true;
     const loginData = this.form.getRawValue();
@@ -34,6 +43,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/dashboard']);
       },
       (err) => {
+        this.setError();
         this.loggingIn = false;
       }
     );
