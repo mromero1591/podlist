@@ -20,7 +20,6 @@ export class SecureComponent implements OnInit {
       this.authService.user().subscribe(
         (res: any) => {
           this.user = res;
-          console.log(res);
         },
         (error) => {
           this.router.navigate(['/login']);
