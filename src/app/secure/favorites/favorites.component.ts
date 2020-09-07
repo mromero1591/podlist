@@ -31,12 +31,16 @@ export class FavoritesComponent implements OnInit {
   setAsFavorite() {}
 
   removeFavorite(podcast) {
+    this.loading = true;
     let removeIndex = this.podcasts.findIndex((item) => item.id === podcast.id);
     if (removeIndex > -1) {
       let temp = [...this.podcasts];
       temp.splice(removeIndex, 1);
       this.podcasts = temp;
     }
-    this.podcastService.removeUserFavorite(this.user.id, podcast.id);
+    this.podcastService.removeUserFavorite(this.user.id, podcast.id).subscribe(
+      (res) => (this.loading = false),
+      (err) => (this.loading = false)
+    );
   }
 }
