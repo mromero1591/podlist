@@ -175,7 +175,7 @@ export class PodcastsComponent implements OnInit {
   setAsFavorite(podcast) {
     let temp = [...this.podcasts];
     let findIndex = temp.findIndex((item) => item.id === podcast.id);
-    if (findIndex) {
+    if (findIndex > -1) {
       temp[findIndex].favorite = true;
       this.podcasts = temp;
     }
